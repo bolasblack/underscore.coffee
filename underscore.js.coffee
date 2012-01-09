@@ -751,6 +751,11 @@ _.templateSettings =
     interpolate : /<%=([\s\S]+?)%>/g
     escape      : /<%-([\s\S]+?)%>/g
 
+# When customizing `templateSettings`, if you don't want to define an
+# interpolation, evaluation or escaping regex, we need one that is
+# guaranteed not to match.
+noMatch = /.^/
+
 # JavaScript micro-templating, similar to John Resig's implementation.
 # Underscore templating handles arbitrary delimiters, preserves whitespace,
 # and correctly escapes quotes within interpolated code.
@@ -764,13 +769,13 @@ _.template = (str, data) ->
         __p.push('#{
             str.replace(/\\/g, '\\\\')
             .replace(/'/g, "\\'")
-            .replace(c.escape, (match, code) ->
+            .replace(c.escape or noMatch, (match, code) ->
                 return "', _.escape(#{code.replace /\\'/g, "'" }), '"
             )
-            .replace(c.interpolate, (match, code) ->
+            .replace(c.interpolate or noMatch, (match, code) ->
                 return "', #{code.replace /\\'/g, "'"}, '"
             )
-            .replace(c.evaluate or null, (match, code) ->
+            .replace(c.evaluate or noMatch, (match, code) ->
                 code = code.replace(/\\'/g, "'").replace(/[\r\n\t]/g, ' ').replace(/\\\\/g, '\\')
                 return "'); #{code}; __p.push('"
             )
