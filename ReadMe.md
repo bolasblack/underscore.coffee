@@ -9,4 +9,4 @@ the js file compiled from underscore.coffee of this repo could not pass the quni
 
 this coffeescript file is the outcome of my coffeescript practice, because of my ability limits, part of js code compiled from underscore.coffee could not pass the unit test.
 
-*grateful if anyone could help me to perfect this coffeescript file, that was so greatful*
+*grateful if anyone could help me to perfect this coffeescript file*
