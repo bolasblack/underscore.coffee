@@ -1,3 +1,14 @@
+# Underscore.coffee 1.3.1
+# (c) 2012-2012 bolasblack [at] gmail
+#
+# Underscore.coffee is freely distributable under the MIT license.
+# Portions of Underscore.coffee are inspired or borrowed from Prototype,
+# Oliver Steele's Functional, and John Resig's Micro-Templating.
+#
+# Underscore.coffee is a coffee version of underscore
+# For all details and documentation of underscore:
+# http://documentcloud.github.com/underscore
+
 # Baseline setup
 # --------------
 
