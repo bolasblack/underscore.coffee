@@ -603,11 +603,11 @@ eq = (a, b, stack) ->
         when 'String'
             # Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
             # equivalent to `new String("5")`.
-            return a is String b
+            return `a == String(b)`
         when 'Number'
             # `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
             # other numeric values.
-            return if a isnt +a then b isnt +b else (if a is 0 then 1 / a is 1 / b else a is +b)
+            return if `a != +a` then `b != +b` else (if `a == 0` then `1 / a == 1 / b` else `a == +b`)
         when 'Date', 'Boolean'
             # Coerce dates and booleans to numeric primitive values. Dates are compared by their
             # millisecond representations. Note that invalid dates with millisecond representations
@@ -616,8 +616,8 @@ eq = (a, b, stack) ->
         # RegExps are compared by their source patterns and flags.
         when 'RegExp'
             result = true
-            for funcName of ['source', 'global', 'multiline', 'ignoreCase']
-                result = result and (a[funcName] is b[funcName])
+            for funcName in ['source', 'global', 'multiline', 'ignoreCase']
+                result = result and (`a[funcName] == b[funcName]`)
             return result
     return false if typeof a isnt 'object' or typeof b isnt 'object'
     # Assume equality for cyclic structures. The algorithm for detecting cyclic
@@ -639,7 +639,7 @@ eq = (a, b, stack) ->
             # Deep compare the contents, ignoring non-numeric properties.
             while size--
                 # Ensure commutative equality for sparse arrays.
-                break unless result = size in a is size in b and eq a[size], b[size], stack
+                break unless `result = size in a == size in b` and eq a[size], b[size], stack
     else
         # Objects with different constructors are not equivalent.
         return false if `'constructor' in a` isnt `'constructor' in b` or a.constructor isnt b.constructor
@@ -697,7 +697,7 @@ _.isArray = nativeIsArray or (obj) ->
 
 # Is a given value a boolean?
 _.isBoolean = (obj) ->
-    return obj is true or obj is false or toString.call obj is '[object Boolean]'
+    return obj is true or obj is false or `toString.call(obj) == '[object Boolean]'`
 
 # Is the given value `NaN`?
 _.isNaN = (obj) ->
